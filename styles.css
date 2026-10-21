@@ -299,3 +299,9 @@ h1, h2, h3, p { margin: 0; }
 .cta::after { content: ""; position: absolute; right: -60px; bottom: -80px; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255,255,255,.55), transparent); }
 
 @media (max-width: 960px) { .steps .line, .ticket, .fl-tom { display: none; } }
+
+/* photo placeholders (swap assets/noodles.png for real photos) */
+.chef-ring img, .chef-img, .c-img { border-radius: 50%; object-fit: cover; background: var(--yellow); display: block; }
+.chef-ring img { width: 62px; height: 62px; } .c-img { width: 46px; height: 46px; }
+.chef-img { flex: none; width: 96px; height: 96px; }
+.dish-card .pic img { width: 70%; }

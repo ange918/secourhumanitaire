@@ -107,9 +107,9 @@ requestAnimationFrame(frame);
 
 /* coupon carousel */
 const coupons = [
-  { img: '#pizza', name: 'Mexicoo Pizza', cal: '78 Calories', price: '$7.90', time: '30 dk.' },
-  { img: '#pasta', name: 'Spaghetti Pomodoro', cal: '64 Calories', price: '$6.50', time: '25 dk.' },
-  { img: '#gyoza', name: 'Wok Noodles', cal: '52 Calories', price: '$5.90', time: '20 dk.' },
+  { name: 'Mexicoo Pizza', cal: '78 Calories', price: '$7.90', time: '30 dk.' },
+  { name: 'Spaghetti Pomodoro', cal: '64 Calories', price: '$6.50', time: '25 dk.' },
+  { name: 'Wok Noodles', cal: '52 Calories', price: '$5.90', time: '20 dk.' },
 ];
 let ci = 0;
 const body = $('#couponBody');
@@ -118,7 +118,7 @@ function showCoupon(i) {
   body.classList.add('swap');
   setTimeout(() => {
     const c = coupons[ci];
-    $('#cImg').setAttribute('href', c.img); $('#cName').textContent = c.name; $('#cCal').textContent = c.cal;
+    $('#cName').textContent = c.name; $('#cCal').textContent = c.cal;
     $('#cPrice').textContent = c.price; $('#cTime').textContent = c.time;
     body.classList.remove('swap');
   }, 230);
