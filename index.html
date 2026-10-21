@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crispa — Du champ au paquet</title>
+  <meta name="description" content="Suivez une pomme de terre, du champ jusqu'au paquet de chips, dans une animation 3D pilotée par le scroll.">
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+    { "imports": { "three": "./vendor/three.module.js" } }
+  </script>
+</head>
+<body>
+  <canvas id="scene" aria-label="Animation 3D : de la pomme de terre au paquet de chips"></canvas>
+
+  <header class="brand">CRISPA</header>
+
+  <section class="hero" id="hero">
+    <p class="kicker">Du champ au paquet</p>
+    <h1>Comment naît<br>une chips&nbsp;?</h1>
+    <p class="hint">Faites défiler pour suivre la pomme de terre <span aria-hidden="true">↓</span></p>
+  </section>
+
+  <aside class="caption" id="caption" aria-live="polite">
+    <span class="step" id="capStep"></span>
+    <h2 id="capTitle"></h2>
+    <p id="capText"></p>
+  </aside>
+
+  <section class="finale" id="finale">
+    <h2>Croustillantes.<br>Dorées. Prêtes.</h2>
+  </section>
+
+  <div class="rail" aria-hidden="true"><i id="railFill"></i></div>
+  <button class="play" id="play" type="button">▶ Lecture auto</button>
+  <div class="loading" id="loading">Chargement de la scène 3D…</div>
+
+  <main class="spacer" aria-hidden="true"></main>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
