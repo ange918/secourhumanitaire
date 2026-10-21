@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<div class="progress" id="progress" aria-hidden="true"></div>
 
 <!-- ============ reusable illustrations ============ -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -178,6 +179,8 @@
 </section>
 </div>
 
+<div class="marquee" aria-hidden="true"><div class="track" id="track"><span>Special sauce</span><i></i><span>Fresh daily</span><i></i><span>Hot in 30 min</span><i></i><span>Handmade dough</span><i></i><span>Made with love</span><i></i><span>Special sauce</span><i></i><span>Fresh daily</span><i></i><span>Hot in 30 min</span><i></i><span>Handmade dough</span><i></i><span>Made with love</span><i></i></div></div>
+
 <!-- ============ WHY FODE ============ -->
 <section class="section" id="why">
   <div class="wrap">
@@ -227,6 +230,9 @@
 
 <!-- ============ ABOUT (dark) ============ -->
 <section class="section dark-sec" id="about">
+  <svg class="fl fl-leaf" data-speed="-.14" viewBox="-60 -80 160 170" aria-hidden="true"><use href="#leaf"/></svg>
+  <div class="fl fl-tom" data-speed=".18" aria-hidden="true"></div>
+  <svg class="fl fl-leaf2" data-speed=".1" viewBox="-60 -80 160 170" aria-hidden="true"><use href="#leaf"/></svg>
   <div class="wrap two">
     <div class="about-art" data-reveal="left">
       <img id="aboutDish" src="assets/noodles.png" width="900" height="900" alt="Wok noodles in a black bowl" loading="lazy">
@@ -246,7 +252,8 @@
   <div class="wrap">
     <p class="eyebrow" data-reveal>How it works</p>
     <h2 class="title" data-reveal>From our kitchen to <b>your table</b></h2>
-    <div class="steps">
+    <div class="steps" id="steps">
+      <i class="line"><b id="stepLine"></b></i>
       <div class="step" data-reveal><span class="n">1</span><h3>Choose</h3><p>Pick a plate from the menu or let the chef recommend one.</p></div>
       <div class="step" data-reveal style="--d:.12s"><span class="n">2</span><h3>We cook</h3><p>Your order is cooked from scratch the moment you tap Buy Now.</p></div>
       <div class="step" data-reveal style="--d:.24s"><span class="n">3</span><h3>Enjoy</h3><p>Hot food at your door in 30 minutes, or the next one is on us.</p></div>
@@ -264,15 +271,16 @@
     <p class="eyebrow" data-reveal>Reviews</p>
     <h2 class="title" data-reveal>People <b>love it</b></h2>
     <div class="grid3">
-      <figure class="card rev" data-reveal><div class="stars">★★★★★</div><blockquote>The pasta sauce is unreal. Arrived hot and on time, will order again.</blockquote><figcaption>Amira K.</figcaption></figure>
+      <figure class="card rev" data-reveal="left"><div class="stars">★★★★★</div><blockquote>The pasta sauce is unreal. Arrived hot and on time, will order again.</blockquote><figcaption>Amira K.</figcaption></figure>
       <figure class="card rev" data-reveal style="--d:.12s"><div class="stars">★★★★★</div><blockquote>Best dumplings in town. The sesame crunch is just right.</blockquote><figcaption>Lucas M.</figcaption></figure>
-      <figure class="card rev" data-reveal style="--d:.24s"><div class="stars">★★★★☆</div><blockquote>Great pizza and a super simple app. The discount coupons are a nice touch.</blockquote><figcaption>Sofia R.</figcaption></figure>
+      <figure class="card rev" data-reveal="right" style="--d:.24s"><div class="stars">★★★★☆</div><blockquote>Great pizza and a super simple app. The discount coupons are a nice touch.</blockquote><figcaption>Sofia R.</figcaption></figure>
     </div>
   </div>
 </section>
 
 <!-- ============ CTA ============ -->
 <section class="cta" id="order">
+  <div class="ticket" data-speed=".16" aria-hidden="true"><b>-20%</b><span>first order</span></div>
   <div class="wrap">
     <h2 data-reveal>Hungry? Your <b>discount coupon</b> is waiting.</h2>
     <form class="signup" data-reveal id="signup"><input type="email" required placeholder="Your email address" aria-label="Email"><button class="buy-btn" type="submit"><span class="bag">→</span>Get my coupon</button></form>
