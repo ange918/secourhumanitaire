@@ -14,7 +14,7 @@
     'Slow-simmered tomatoes, fresh basil and a pinch of a secret we never share. That is the flavor you only find at Fode.': 'Tomates mijotées lentement, basilic frais et une pincée d’un secret que nous ne partageons jamais. C’est la saveur que l’on ne trouve que chez Fode.',
     '30 minutes or less': '30 minutes ou moins', 'Your order goes from the pan to your door in half an hour. Hot when it leaves, hot when it arrives.': 'Votre commande passe de la poêle à votre porte en une demi-heure. Chaude au départ, chaude à l’arrivée.',
     'Made with care': 'Préparé avec soin', 'Local produce, handmade dough and zero shortcuts. Every plate is checked by a chef before it leaves the kitchen.': 'Produits locaux, pâte faite main et aucun raccourci. Chaque assiette est vérifiée par un chef avant de quitter la cuisine.',
-    'Recipes': 'Recettes', 'Happy guests': 'Clients ravis', 'min': 'min', 'Average delivery': 'Livraison moyenne', 'Customer rating': 'Note clients',
+    'Recipes': 'Recettes', 'Happy guests': 'Clients ravis', 'Minutes delivery': 'Minutes de livraison', 'Average rating': 'Note moyenne',
     'Our menu': 'Notre menu', 'All': 'Tout', 'Pasta': 'Pâtes', 'Pizza': 'Pizza', 'Asian': 'Asiatique', 'Burger': 'Burger', 'Dessert': 'Dessert',
     'Special sauce, basil, parmesan.': 'Sauce spéciale, basilic, parmesan.', 'Pepperoni, jalapeño, mozzarella.': 'Pepperoni, jalapeño, mozzarella.',
     'Wok Noodles': 'Nouilles sautées', 'Sticky chicken, veggies, sesame.': 'Poulet caramélisé, légumes, sésame.',

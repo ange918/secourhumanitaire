@@ -17,13 +17,11 @@ const counters = new WeakMap();
 function runCount(el) {
   const end = parseFloat(el.dataset.count), dec = +el.dataset.dec || 0, t0 = performance.now(), dur = 2400;
   cancelAnimationFrame(counters.get(el));
-  el.parentElement.classList.remove('pop');
-  if (reduce) { el.textContent = fmt(end, dec); return; }
+    if (reduce) { el.textContent = fmt(end, dec); return; }
   const tick = (t) => {
     const k = Math.min(1, (t - t0) / dur), v = end * (k === 1 ? 1 : 1 - Math.pow(2, -10 * k));
     el.textContent = fmt(v, dec);
     if (k < 1) counters.set(el, requestAnimationFrame(tick));
-    else { void el.parentElement.offsetWidth; el.parentElement.classList.add('pop'); }
   };
   counters.set(el, requestAnimationFrame(tick));
 }
@@ -31,7 +29,7 @@ const cio = new IntersectionObserver((entries) => {
   entries.forEach((e) => {
     const el = e.target;
     if (e.isIntersecting) runCount(el);
-    else { cancelAnimationFrame(counters.get(el)); el.textContent = fmt(0, +el.dataset.dec || 0); el.parentElement.classList.remove('pop'); }
+    else { cancelAnimationFrame(counters.get(el)); el.textContent = fmt(0, +el.dataset.dec || 0); }
   });
 }, { threshold: 0.5 });
 $$('[data-count]').forEach((el) => { el.textContent = fmt(0, +el.dataset.dec || 0); cio.observe(el); });
