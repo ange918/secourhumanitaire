@@ -11,21 +11,30 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.18, rootMargin: '0px 0px -6% 0px' });
 $$('[data-reveal]').forEach((el) => io.observe(el));
 
-/* count-up numbers */
+/* count-up numbers: they run every time the stats scroll into view */
+const fmt = (v, dec) => v.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+const counters = new WeakMap();
+function runCount(el) {
+  const end = parseFloat(el.dataset.count), dec = +el.dataset.dec || 0, t0 = performance.now(), dur = 2400;
+  cancelAnimationFrame(counters.get(el));
+  el.parentElement.classList.remove('pop');
+  if (reduce) { el.textContent = fmt(end, dec); return; }
+  const tick = (t) => {
+    const k = Math.min(1, (t - t0) / dur), v = end * (k === 1 ? 1 : 1 - Math.pow(2, -10 * k));
+    el.textContent = fmt(v, dec);
+    if (k < 1) counters.set(el, requestAnimationFrame(tick));
+    else { void el.parentElement.offsetWidth; el.parentElement.classList.add('pop'); }
+  };
+  counters.set(el, requestAnimationFrame(tick));
+}
 const cio = new IntersectionObserver((entries) => {
   entries.forEach((e) => {
-    if (!e.isIntersecting) return;
-    cio.unobserve(e.target);
-    const el = e.target, end = parseFloat(el.dataset.count), dec = +el.dataset.dec || 0, t0 = performance.now(), dur = 1400;
-    const tick = (t) => {
-      const k = Math.min(1, (t - t0) / dur), v = end * (1 - Math.pow(1 - k, 3));
-      el.textContent = v.toFixed(dec);
-      if (k < 1) requestAnimationFrame(tick);
-    };
-    reduce ? (el.textContent = end.toFixed(dec)) : requestAnimationFrame(tick);
+    const el = e.target;
+    if (e.isIntersecting) runCount(el);
+    else { cancelAnimationFrame(counters.get(el)); el.textContent = fmt(0, +el.dataset.dec || 0); el.parentElement.classList.remove('pop'); }
   });
-}, { threshold: 0.6 });
-$$('[data-count]').forEach((el) => cio.observe(el));
+}, { threshold: 0.5 });
+$$('[data-count]').forEach((el) => { el.textContent = fmt(0, +el.dataset.dec || 0); cio.observe(el); });
 
 /* split section titles into words (masked slide-up on reveal) */
 $$('.title').forEach((t) => {
@@ -142,8 +151,8 @@ $('#tabs').addEventListener('click', (e) => {
 const toast = $('#toast');
 let tt;
 function say(msg) { toast.textContent = msg; toast.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove('show'), 2200); }
-$('#buy').addEventListener('click', () => say('Italian Pasta added to your cart 🍝'));
-$$('.add').forEach((b) => b.addEventListener('click', () => say(`${b.closest('.dish-card').querySelector('h3').textContent} added to your cart`)));
+$('#newsForm').addEventListener('submit', (e) => { e.preventDefault(); $('#newsOk').hidden = false; e.target.reset(); });
+$$('a.soon').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); say('Coming soon'); }));
 $('#signup').addEventListener('submit', (e) => { e.preventDefault(); $('#ok').hidden = false; e.target.reset(); });
 /* mobile menu */
 const burger = $('#burger'), mMenu = $('#mMenu');
@@ -156,3 +165,7 @@ burger.addEventListener('click', () => setMenu(!document.body.classList.contains
 mMenu.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
 addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
 matchMedia('(min-width: 961px)').addEventListener('change', (e) => { if (e.matches) setMenu(false); });
+
+/* footer wordmark slides up when the footer comes into view */
+const footEl = $('#footer');
+if (footEl) new IntersectionObserver((en, ob) => { if (en[0].isIntersecting) { footEl.classList.add('seen'); ob.disconnect(); } }, { threshold: 0.15 }).observe(footEl);
