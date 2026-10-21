@@ -12,7 +12,7 @@ const io = new IntersectionObserver((entries) => {
 $$('[data-reveal]').forEach((el) => io.observe(el));
 
 /* count-up numbers: they run every time the stats scroll into view */
-const fmt = (v, dec) => v.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+const fmt = (v, dec) => v.toLocaleString(window.I18N ? I18N.locale() : 'en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
 const counters = new WeakMap();
 function runCount(el) {
   const end = parseFloat(el.dataset.count), dec = +el.dataset.dec || 0, t0 = performance.now(), dur = 2400;
@@ -36,13 +36,17 @@ const cio = new IntersectionObserver((entries) => {
 }, { threshold: 0.5 });
 $$('[data-count]').forEach((el) => { el.textContent = fmt(0, +el.dataset.dec || 0); cio.observe(el); });
 
-/* split section titles into words (masked slide-up on reveal) */
-$$('.title').forEach((t) => {
-  let n = 0;
-  const wrap = (txt) => txt.split(/(\s+)/).map((w) => (/^\s+$/.test(w) || !w ? w : `<span class="w"><span style="--i:${n++}">${w}</span></span>`)).join('');
-  t.innerHTML = [...t.childNodes].map((c) => (c.nodeType === 3 ? wrap(c.textContent) : `<b>${wrap(c.textContent)}</b>`)).join('');
-  t.classList.add('split');
-});
+/* split section titles into words (masked slide-up on reveal); re-run after a language change */
+function splitTitles() {
+  $$('.title').forEach((t) => {
+    let n = 0;
+    const wrap = (txt) => txt.split(/(\s+)/).map((w) => (/^\s+$/.test(w) || !w ? w : `<span class="w"><span style="--i:${n++}">${w}</span></span>`)).join('');
+    t.innerHTML = [...t.childNodes].map((c) => (c.nodeType === 3 ? wrap(c.textContent) : `<b>${wrap(c.textContent)}</b>`)).join('');
+    t.classList.add('split');
+  });
+}
+window.splitTitles = splitTitles;
+splitTitles();
 
 /* ---- one scroll/animation loop: progress bar, mini navbar, hero scroll-out, parallax, marquee, steps ---- */
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
@@ -127,7 +131,7 @@ function showCoupon(i) {
   body.classList.add('swap');
   setTimeout(() => {
     const c = coupons[ci];
-    $('#cName').textContent = c.name; $('#cCal').textContent = c.cal;
+    $('#cName').textContent = I18N.t(c.name); $('#cCal').textContent = c.cal;
     $('#cPrice').textContent = c.price; $('#cTime').textContent = c.time;
     body.classList.remove('swap');
   }, 230);
@@ -152,7 +156,7 @@ const toast = $('#toast');
 let tt;
 function say(msg) { toast.textContent = msg; toast.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove('show'), 2200); }
 $('#newsForm').addEventListener('submit', (e) => { e.preventDefault(); $('#newsOk').hidden = false; e.target.reset(); });
-$$('a.soon').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); say('Coming soon'); }));
+$$('a.soon').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); say(I18N.t('Coming soon')); }));
 $('#signup').addEventListener('submit', (e) => { e.preventDefault(); $('#ok').hidden = false; e.target.reset(); });
 /* mobile menu */
 const burger = $('#burger'), mMenu = $('#mMenu');
@@ -169,3 +173,6 @@ matchMedia('(min-width: 961px)').addEventListener('change', (e) => { if (e.match
 /* footer wordmark slides up when the footer comes into view */
 const footEl = $('#footer');
 if (footEl) new IntersectionObserver((en, ob) => { if (en[0].isIntersecting) { footEl.classList.add('seen'); ob.disconnect(); } }, { threshold: 0.15 }).observe(footEl);
+
+/* keep coupon text and number formats in step with the language */
+I18N.onChange(() => { showCoupon(ci); $$('[data-count]').forEach((el) => { const v = parseFloat(el.dataset.count); if (el.textContent !== fmt(0, +el.dataset.dec || 0)) el.textContent = fmt(v, +el.dataset.dec || 0); }); });

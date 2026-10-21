@@ -22,14 +22,14 @@
   <nav>
     <a href="#why">Why Fode?</a><a href="#menu">Menu</a><a href="#about">About</a><a href="#reviews">Reviews</a>
   </nav>
-  <div class="tb-right"><button class="cart-btn" type="button" aria-label="Open cart" data-open-cart><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6.5a3 3 0 016 0V8"/></svg><span class="cart-badge" data-cart-count hidden>0</span></button><a class="btn-yellow sm" href="#order">Order now</a></div>
+  <div class="tb-right"><button class="lang tb" type="button" data-lang-toggle aria-label="Change language"><span data-l="en" class="on">EN</span><span data-l="fr">FR</span></button><button class="cart-btn" type="button" aria-label="Open cart" data-open-cart><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6.5a3 3 0 016 0V8"/></svg><span class="cart-badge" data-cart-count hidden>0</span></button><a class="btn-yellow sm" href="#order">Order now</a></div>
 </header>
 
 <div class="m-menu" id="mMenu" aria-hidden="true">
   <nav>
     <a href="#why">Why Fode?</a><a href="#menu">Menu</a><a href="#about">About</a><a href="#reviews">Reviews</a>
   </nav>
-  <div class="m-actions"><a class="btn-line" href="#order">Sign In</a><a class="btn-yellow" href="#order">Login</a></div>
+  <div class="m-actions"><button class="lang mm" type="button" data-lang-toggle aria-label="Change language"><span data-l="en" class="on">EN</span><span data-l="fr">FR</span></button><a class="btn-line" href="#order">Sign In</a><a class="btn-yellow" href="#order">Login</a></div>
 </div>
 
 <div class="page" id="top">
@@ -63,7 +63,9 @@
       <a class="btn-line" href="#order">Sign In</a>
       <a class="btn-yellow" href="#order">Login</a>
       <button class="cart-btn" type="button" aria-label="Open cart" data-open-cart><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6.5a3 3 0 016 0V8"/></svg><span class="cart-badge" data-cart-count hidden>0</span></button>
+      <button class="lang" type="button" data-lang-toggle aria-label="Change language"><span data-l="en" class="on">EN</span><span data-l="fr">FR</span></button>
     </nav>
+    <button class="lang m" type="button" data-lang-toggle aria-label="Change language"><span data-l="en" class="on">EN</span><span data-l="fr">FR</span></button>
     <button class="cart-btn m" type="button" aria-label="Open cart" data-open-cart><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6.5a3 3 0 016 0V8"/></svg><span class="cart-badge" data-cart-count hidden>0</span></button>
     <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mMenu"><span></span><span></span></button>
   </header>
@@ -149,12 +151,12 @@
       <button class="on" data-f="all">All</button><button data-f="pasta">Pasta</button><button data-f="pizza">Pizza</button><button data-f="asian">Asian</button><button data-f="burger">Burger</button><button data-f="sweet">Dessert</button>
     </div>
     <div class="menu-grid" id="menuGrid">
-      <article class="dish-card" data-c="pasta" data-reveal><div class="pic"><img src="assets/noodles.png" width="300" height="300" alt="" loading="lazy"></div><h3>Spaghetti Pomodoro</h3><p>Special sauce, basil, parmesan.</p><div class="row"><b>$7.90</b><button class="add" aria-label="Add">+</button></div></article>
-      <article class="dish-card" data-c="pizza" data-reveal style="--d:.08s"><div class="pic"><img src="assets/noodles.png" width="300" height="300" alt="" loading="lazy"></div><h3>Mexicoo Pizza</h3><p>Pepperoni, jalapeño, mozzarella.</p><div class="row"><b>$8.50</b><button class="add" aria-label="Add">+</button></div></article>
-      <article class="dish-card" data-c="asian" data-reveal style="--d:.16s"><div class="pic"><img src="assets/noodles.png" width="300" height="300" alt="" loading="lazy"></div><h3>Wok Noodles</h3><p>Sticky chicken, veggies, sesame.</p><div class="row"><b>$6.90</b><button class="add" aria-label="Add">+</button></div></article>
-      <article class="dish-card" data-c="burger" data-reveal><div class="pic"><img src="assets/noodles.png" width="300" height="300" alt="" loading="lazy"></div><h3>Smash Burger</h3><p>Double patty, cheddar, house sauce.</p><div class="row"><b>$9.20</b><button class="add" aria-label="Add">+</button></div></article>
-      <article class="dish-card" data-c="sweet" data-reveal style="--d:.08s"><div class="pic"><img src="assets/noodles.png" width="300" height="300" alt="" loading="lazy"></div><h3>Tiramisu</h3><p>Mascarpone, espresso, cocoa.</p><div class="row"><b>$4.90</b><button class="add" aria-label="Add">+</button></div></article>
-      <article class="dish-card" data-c="pasta" data-reveal style="--d:.16s"><div class="pic"><img src="assets/noodles.png" width="300" height="300" alt="" loading="lazy"></div><h3>Garden Bowl</h3><p>Fresh greens, tomato, light dressing.</p><div class="row"><b>$6.20</b><button class="add" aria-label="Add">+</button></div></article>
+      <article class="dish-card" data-name="Spaghetti Pomodoro" data-c="pasta" data-reveal><div class="pic"><img src="assets/noodles.png" width="300" height="300" alt="" loading="lazy"></div><h3>Spaghetti Pomodoro</h3><p>Special sauce, basil, parmesan.</p><div class="row"><b>$7.90</b><button class="add" aria-label="Add">+</button></div></article>
+      <article class="dish-card" data-name="Mexicoo Pizza" data-c="pizza" data-reveal style="--d:.08s"><div class="pic"><img src="assets/noodles.png" width="300" height="300" alt="" loading="lazy"></div><h3>Mexicoo Pizza</h3><p>Pepperoni, jalapeño, mozzarella.</p><div class="row"><b>$8.50</b><button class="add" aria-label="Add">+</button></div></article>
+      <article class="dish-card" data-name="Wok Noodles" data-c="asian" data-reveal style="--d:.16s"><div class="pic"><img src="assets/noodles.png" width="300" height="300" alt="" loading="lazy"></div><h3>Wok Noodles</h3><p>Sticky chicken, veggies, sesame.</p><div class="row"><b>$6.90</b><button class="add" aria-label="Add">+</button></div></article>
+      <article class="dish-card" data-name="Smash Burger" data-c="burger" data-reveal><div class="pic"><img src="assets/noodles.png" width="300" height="300" alt="" loading="lazy"></div><h3>Smash Burger</h3><p>Double patty, cheddar, house sauce.</p><div class="row"><b>$9.20</b><button class="add" aria-label="Add">+</button></div></article>
+      <article class="dish-card" data-name="Tiramisu" data-c="sweet" data-reveal style="--d:.08s"><div class="pic"><img src="assets/noodles.png" width="300" height="300" alt="" loading="lazy"></div><h3>Tiramisu</h3><p>Mascarpone, espresso, cocoa.</p><div class="row"><b>$4.90</b><button class="add" aria-label="Add">+</button></div></article>
+      <article class="dish-card" data-name="Garden Bowl" data-c="pasta" data-reveal style="--d:.16s"><div class="pic"><img src="assets/noodles.png" width="300" height="300" alt="" loading="lazy"></div><h3>Garden Bowl</h3><p>Fresh greens, tomato, light dressing.</p><div class="row"><b>$6.20</b><button class="add" aria-label="Add">+</button></div></article>
     </div>
   </div>
 </section>
@@ -301,6 +303,7 @@
 </aside>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="i18n.js"></script>
 <script src="app.js"></script>
 <script src="cart.js"></script>
 </body>

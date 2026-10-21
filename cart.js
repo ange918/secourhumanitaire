@@ -3,6 +3,7 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const money = (n) => `$${n.toFixed(2)}`;
+  const T = (k, v) => (window.I18N ? I18N.t(k, v) : k);
   const noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const KEY = 'fode-cart-v1';
   const DELIVERY = 2.5, FREE_FROM = 20;
@@ -25,26 +26,26 @@
   function render() {
     const n = count();
     $$('[data-cart-count]').forEach((b) => { b.textContent = n; b.hidden = n === 0; });
-    $('#cartTitle').textContent = view === 'cart' ? (n ? `Your cart (${n})` : 'Your cart') : view === 'pay' ? 'Checkout' : 'Thank you';
+    $('#cartTitle').textContent = view === 'cart' ? (n ? T('Your cart ({n})', { n }) : T('Your cart')) : view === 'pay' ? T('Checkout title') : T('Thank you title');
     const list = $('#cartList');
     list.innerHTML = items.map((i) => `
       <li class="ci" data-id="${i.id}">
         <img src="assets/noodles.png" width="64" height="64" alt="">
-        <div class="ci-info"><b>${i.name}</b><span>${money(i.price)}</span></div>
-        <div class="qty" role="group" aria-label="Quantity of ${i.name}">
-          <button type="button" data-act="dec" aria-label="Remove one">−</button><output>${i.qty}</output><button type="button" data-act="inc" aria-label="Add one">+</button>
+        <div class="ci-info"><b>${T(i.name)}</b><span>${money(i.price)}</span></div>
+        <div class="qty" role="group" aria-label="${T('Quantity of {name}', { name: T(i.name) })}">
+          <button type="button" data-act="dec" aria-label="${T('Remove one')}">−</button><output>${i.qty}</output><button type="button" data-act="inc" aria-label="${T('Add one')}">+</button>
         </div>
         <b class="ci-total">${money(i.price * i.qty)}</b>
-        <button type="button" class="ci-del" data-act="del" aria-label="Remove ${i.name} from cart">×</button>
+        <button type="button" class="ci-del" data-act="del" aria-label="${T('Remove {name} from cart', { name: T(i.name) })}">×</button>
       </li>`).join('');
     $('#cartEmpty').hidden = items.length > 0;
     $('#cartFoot').hidden = items.length === 0;
     $('#sSub').textContent = money(subtotal());
-    $('#sDel').textContent = delivery() === 0 && items.length ? 'Free' : money(delivery());
+    $('#sDel').textContent = delivery() === 0 && items.length ? T('Free') : money(delivery());
     $('#sTot').textContent = money(total());
     const left = FREE_FROM - subtotal();
-    $('#freeNote').textContent = items.length && left > 0 ? `Add ${money(left)} more for free delivery` : items.length ? 'You get free delivery' : '';
-    $('#payLabel').textContent = `Pay ${money(total())}`;
+    $('#freeNote').textContent = items.length && left > 0 ? T('Add {x} more for free delivery', { x: money(left) }) : items.length ? T('You get free delivery') : '';
+    $('#payLabel').textContent = T('Pay {x}', { x: money(total()) });
   }
 
   /* ---------- open / close ---------- */
@@ -100,11 +101,11 @@
     const found = items.find((i) => i.id === item.id);
     if (found) found.qty += 1; else items.push({ ...item, qty: 1 });
     save(); render(); fly(from, 'assets/noodles.png'); if (noMotion) bump();
-    if (window.say) window.say(`${item.name} added to your cart`);
+    if (window.say) window.say(T('{name} added to your cart', { name: T(item.name) }));
   }
   $('#buy').addEventListener('click', (e) => { add({ id: 'italian-pasta', name: 'Italian Pasta', price: 7.9 }, e.currentTarget); setTimeout(() => open('cart'), noMotion ? 0 : 800); });
   $$('.dish-card .add').forEach((b) => b.addEventListener('click', () => {
-    const card = b.closest('.dish-card'), name = card.querySelector('h3').textContent.trim();
+    const card = b.closest('.dish-card'), name = card.dataset.name;
     add({ id: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'), name, price: parseFloat(card.querySelector('.row b').textContent.replace('$', '')) }, b);
   }));
 
@@ -148,9 +149,9 @@
   $('#payForm').addEventListener('submit', (e) => {
     e.preventDefault();
     const err = $('#payErr'), bad = validate();
-    if (bad.length) { err.textContent = 'Please check the highlighted fields.'; err.hidden = false; bad[0].focus(); return; }
+    if (bad.length) { err.textContent = T('Please check the highlighted fields.'); err.hidden = false; bad[0].focus(); return; }
     err.hidden = true;
-    const btn = $('#payBtn'); btn.disabled = true; btn.classList.add('busy'); $('#payLabel').textContent = 'Processing…';
+    const btn = $('#payBtn'); btn.disabled = true; btn.classList.add('busy'); $('#payLabel').textContent = T('Processing…');
     setTimeout(() => {
       const num = `FD-${Math.floor(10000 + Math.random() * 89999)}`;
       $('#dName').textContent = $('#pName').value.trim().split(' ')[0];
@@ -166,4 +167,5 @@
   $('#doneBtn').addEventListener('click', close);
 
   render();
+  if (window.I18N) I18N.onChange(render);
 })();
