@@ -1,42 +1,315 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Crispa — Du champ au paquet</title>
-  <meta name="description" content="Suivez une pomme de terre, du champ jusqu'au paquet de chips, dans une animation 3D pilotée par le scroll.">
-  <link rel="stylesheet" href="style.css">
-  <script type="importmap">
-    { "imports": { "three": "./vendor/three.module.js" } }
-  </script>
+  <title>Fode — Italian Pasta With Special Sauce</title>
+  <meta name="description" content="Fode: fresh Italian pasta, pizza and dumplings with a special sauce you can only find at Fode.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%278%27 fill=%27%23111%27/%3E%3Ctext x=%277%27 y=%2724%27 font-size=%2722%27 font-weight=%27700%27 fill=%27%23ffd36e%27 font-family=%27Arial%27%3EF%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <canvas id="scene" aria-label="Animation 3D : de la pomme de terre au paquet de chips"></canvas>
 
-  <header class="brand">CRISPA</header>
+<!-- ============ reusable illustrations ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <radialGradient id="wood" cx="42%" cy="38%" r="75%"><stop offset="0" stop-color="#e6b87a"/><stop offset=".55" stop-color="#c98f4f"/><stop offset="1" stop-color="#a06a2b"/></radialGradient>
+    <radialGradient id="inner" cx="50%" cy="42%" r="62%"><stop offset="0" stop-color="#ecc58d"/><stop offset=".65" stop-color="#d6a366"/><stop offset="1" stop-color="#b57d3c"/></radialGradient>
+    <radialGradient id="dough" cx="38%" cy="28%" r="85%"><stop offset="0" stop-color="#fffdf8"/><stop offset=".55" stop-color="#eee8da"/><stop offset="1" stop-color="#cbc1ab"/></radialGradient>
+    <linearGradient id="stick" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3d9a6"/><stop offset=".5" stop-color="#e4bf80"/><stop offset="1" stop-color="#c79a57"/></linearGradient>
+    <linearGradient id="leafg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9fd35a"/><stop offset="1" stop-color="#3f8f2b"/></linearGradient>
+    <radialGradient id="tom" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#ff7a62"/><stop offset=".6" stop-color="#e2251d"/><stop offset="1" stop-color="#a3120f"/></radialGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="9"/></filter>
+    <filter id="blur2"><feGaussianBlur stdDeviation="2.2"/></filter>
+    <filter id="drop" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#000" flood-opacity=".3"/></filter>
 
-  <section class="hero" id="hero">
-    <p class="kicker">Du champ au paquet</p>
-    <h1>Comment naît<br>une chips&nbsp;?</h1>
-    <p class="hint">Faites défiler pour suivre la pomme de terre <span aria-hidden="true">↓</span></p>
-  </section>
+    <g id="dump">
+      <path d="M-86,20 C-82,-38 -30,-60 20,-54 C72,-48 100,-10 94,24 C62,56 10,62 -30,56 C-64,50 -82,38 -86,20Z" fill="url(#dough)" stroke="#bfb59e" stroke-width="1.5" filter="url(#drop)"/>
+      <path d="M-62,-20 q9,11 4,24 M-42,-37 q9,11 4,26 M-19,-46 q9,12 3,28 M6,-50 q9,12 3,28 M31,-46 q9,12 2,28 M55,-35 q7,12 0,26" fill="none" stroke="#c9bfa8" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M-60,-23 q9,11 4,24 M-40,-40 q9,11 4,26 M-17,-49 q9,12 3,28 M8,-53 q9,12 3,28 M33,-49 q9,12 2,28" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width="1.5" stroke-linecap="round"/>
+      <g fill="#1b1815"><ellipse cx="-30" cy="-6" rx="3.4" ry="1.7" transform="rotate(30 -30 -6)"/><ellipse cx="2" cy="-18" rx="3.4" ry="1.7" transform="rotate(-20 2 -18)"/><ellipse cx="38" cy="-4" rx="3.4" ry="1.7" transform="rotate(50 38 -4)"/><ellipse cx="-8" cy="14" rx="3.4" ry="1.7" transform="rotate(10 -8 14)"/><ellipse cx="60" cy="14" rx="3.4" ry="1.7"/><ellipse cx="-52" cy="18" rx="3.4" ry="1.7" transform="rotate(-40 -52 18)"/><ellipse cx="24" cy="30" rx="3.4" ry="1.7" transform="rotate(20 24 30)"/><ellipse cx="-20" cy="36" rx="3.4" ry="1.7" transform="rotate(80 -20 36)"/></g>
+    </g>
 
-  <aside class="caption" id="caption" aria-live="polite">
-    <span class="step" id="capStep"></span>
-    <h2 id="capTitle"></h2>
-    <p id="capText"></p>
+    <g id="leaf">
+      <path d="M0,70 C-34,34 -24,-30 36,-66 C92,-22 84,42 22,76 C10,80 4,76 0,70Z" fill="url(#leafg)"/>
+      <path d="M2,72 C18,30 30,-8 36,-62" fill="none" stroke="#d6f0a0" stroke-opacity=".7" stroke-width="3" stroke-linecap="round"/>
+      <path d="M20,32 l24,-10 M14,6 l26,-14 M24,52 l22,-4" fill="none" stroke="#d6f0a0" stroke-opacity=".45" stroke-width="2" stroke-linecap="round"/>
+    </g>
+
+    <g id="pizza">
+      <circle r="46" fill="#d8993f"/><circle r="40" fill="#e8563a"/><circle r="36" fill="#f6c453"/>
+      <g fill="#c8321f"><circle cx="-14" cy="-12" r="8"/><circle cx="14" cy="-16" r="8"/><circle cx="-2" cy="10" r="8"/><circle cx="20" cy="12" r="7"/><circle cx="-22" cy="14" r="6"/></g>
+      <g fill="#3f8f2b"><circle cx="6" cy="-4" r="2.6"/><circle cx="-12" cy="2" r="2.6"/><circle cx="24" cy="-2" r="2.6"/><circle cx="-4" cy="26" r="2.6"/></g>
+    </g>
+    <g id="pasta">
+      <circle r="48" fill="#f4f1ea"/><circle r="40" fill="#e9e4d8"/>
+      <g fill="none" stroke="#f1c84f" stroke-width="5" stroke-linecap="round"><path d="M-26,0 C-26,-26 26,-26 26,0 C26,22 -18,22 -18,2 C-18,-12 14,-14 14,0 C14,8 -6,8 -6,2"/><path d="M-30,10 C-20,30 24,30 30,6" /></g>
+      <path d="M-22,-4 C-10,-28 12,-26 20,-8 C8,6 -10,10 -22,-4Z" fill="#d6321f" opacity=".85"/>
+      <use href="#leaf" transform="translate(14 -10) scale(.2) rotate(30)"/><use href="#leaf" transform="translate(-6 4) scale(.16) rotate(-40)"/>
+    </g>
+    <g id="burger">
+      <path d="M-44,-4 C-44,-40 44,-40 44,-4Z" fill="#e0a043"/><g fill="#fff3d0"><circle cx="-14" cy="-24" r="2"/><circle cx="6" cy="-30" r="2"/><circle cx="22" cy="-20" r="2"/><circle cx="-28" cy="-14" r="2"/></g>
+      <path d="M-46,-2 q8,10 16,0 t16,0 t16,0 t16,0 t16,0 v6 h-80z" fill="#5fae3a"/>
+      <rect x="-44" y="4" width="88" height="12" rx="6" fill="#6b3a22"/>
+      <path d="M-44,16 h88 l-8,8 l-10,-6 l-10,6 l-10,-6 l-10,6 l-10,-6 l-10,6z" fill="#f6c93b"/>
+      <path d="M-44,24 h88 q0,16 -20,16 h-48 q-20,0 -20,-16z" fill="#d18d34"/>
+    </g>
+    <g id="gyoza">
+      <circle r="48" fill="url(#wood)"/><circle r="40" fill="url(#inner)"/>
+      <use href="#dump" transform="translate(-10 -12) scale(.28) rotate(-12)"/><use href="#dump" transform="translate(12 6) scale(.28) rotate(8)"/><use href="#dump" transform="translate(-8 20) scale(.26) rotate(24)"/>
+    </g>
+    <g id="cake">
+      <ellipse cx="0" cy="30" rx="48" ry="9" fill="#ece7dc"/>
+      <path d="M-34,22 L-34,-4 L34,-4 L34,22 Q0,32 -34,22Z" fill="#c68a52"/><rect x="-34" y="-4" width="68" height="7" fill="#f6ecd5"/><rect x="-34" y="9" width="68" height="6" fill="#f6ecd5"/>
+      <path d="M-34,-4 Q0,-26 34,-4 Z" fill="#5a3320"/><g fill="#4a2a1a"><circle cx="-12" cy="-14" r="2"/><circle cx="8" cy="-16" r="2"/><circle cx="18" cy="-10" r="2"/></g>
+      <circle cx="0" cy="-22" r="6" fill="#d6321f"/>
+    </g>
+    <g id="bowl2">
+      <circle r="48" fill="#eee9dc"/><circle r="40" fill="#fffdf6"/>
+      <g><circle cx="-14" cy="-10" r="12" fill="#6fb73e"/><circle cx="10" cy="-14" r="11" fill="#58a233"/><circle cx="16" cy="8" r="9" fill="#e2251d"/><circle cx="-16" cy="12" r="10" fill="#f6c93b"/><circle cx="-2" cy="2" r="8" fill="#3f8f2b"/><circle cx="2" cy="22" r="7" fill="#fff"/></g>
+    </g>
+    <g id="chef">
+      <circle r="50" fill="#ffd36a"/>
+      <path d="M-34,50 C-34,24 -18,18 0,18 C18,18 34,24 34,50Z" fill="#fff"/><g fill="#d9d9d9"><circle cx="0" cy="32" r="2.2"/><circle cx="0" cy="42" r="2.2"/></g>
+      <rect x="-14" y="10" width="28" height="12" rx="5" fill="#f1c9a5"/>
+      <ellipse cx="0" cy="-4" rx="19" ry="22" fill="#f4cfae"/>
+      <path d="M-19,-2 C-19,22 19,22 19,-2 C19,12 -19,12 -19,-2Z" fill="#2a2420"/>
+      <path d="M-18,-12 C-14,-24 14,-24 18,-12 C12,-16 -12,-16 -18,-12Z" fill="#2a2420"/>
+      <g fill="#2a2420"><circle cx="-7" cy="-4" r="1.8"/><circle cx="7" cy="-4" r="1.8"/></g>
+      <path d="M-6,8 Q0,13 6,8" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+      <path d="M-22,-16 C-30,-22 -26,-40 -12,-38 C-10,-50 12,-50 14,-38 C28,-40 30,-22 22,-16Z" fill="#fff" stroke="#e6e6e6"/>
+    </g>
+  </defs>
+</svg>
+
+<!-- ============ floating mini navbar (after the hero) ============ -->
+<header class="topbar" id="topbar">
+  <a class="logo" href="#top">Fode<i></i></a>
+  <nav>
+    <a href="#why">Why Fode?</a><a href="#menu">Menu</a><a href="#about">About</a><a href="#reviews">Reviews</a>
+  </nav>
+  <a class="btn-yellow sm" href="#order">Order now</a>
+</header>
+
+<div class="page" id="top">
+<section class="hero" id="hero">
+  <!-- black diagonal shape -->
+  <div class="dark" aria-hidden="true">
+    <svg class="doodles" width="100%" height="100%">
+      <defs>
+        <pattern id="pat" width="170" height="170" patternUnits="userSpaceOnUse" patternTransform="rotate(-8)">
+          <g fill="none" stroke="#fff" stroke-opacity=".09" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 46 q26 -34 52 0z M12 54 h56 M14 62 q26 8 52 0 M16 70 h48 q0 12 -24 12 q-24 0 -24 -12z"/>
+            <path d="M104 18 h30 v34 q0 12 -15 12 q-15 0 -15 -12z M134 26 h8 q8 0 8 11 t-8 11 h-8"/>
+            <circle cx="120" cy="112" r="26"/><path d="M120 86 v52 M94 112 h52 M101 93 l38 38 M139 93 l-38 38"/>
+            <path d="M20 120 l16 -10 l16 10 l-4 28 h-24z M24 128 h24"/>
+            <path d="M150 150 q10 -16 20 0 t20 0"/>
+          </g>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#pat)"/>
+    </svg>
+    <svg class="swirl" viewBox="0 0 400 300" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="1.2"><path d="M20 80 C60 20 140 20 170 80 S250 190 300 130 S360 20 395 70"/><path d="M60 250 C120 190 180 240 230 210 S330 160 380 230" stroke-opacity=".3"/></svg>
+  </div>
+
+  <header class="nav">
+    <a class="logo" href="#top">Fode<i></i></a>
+    <nav class="links">
+      <button class="search" aria-label="Search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
+      <a href="#why">Why Fode?</a>
+      <a href="#about" class="active">About</a>
+      <a href="#menu" class="has-caret">Menu <svg width="9" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M1 1l4 4 4-4"/></svg></a>
+      <a class="btn-line" href="#order">Sign In</a>
+      <a class="btn-yellow" href="#order">Login</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span></button>
+  </header>
+
+  <svg class="squiggle" width="26" height="22" viewBox="0 0 26 22" fill="none" stroke="#9a9a9a" stroke-width="1.6" stroke-linecap="round"><path d="M2 8 q5.5 -7 11 0 t11 0"/><path d="M2 16 q5.5 -7 11 0 t11 0"/></svg>
+
+  <div class="copy">
+    <h1 class="h-line"><span class="light" data-line>Italian Pasta</span><span class="bold" data-line>With Special Sauce</span></h1>
+    <p class="lead" data-line>Italian pasta with special sauce is a flavor you can find only in <b>fode.</b></p>
+    <div class="buy" data-line>
+      <div class="price"><s>$7.90</s><strong>$7.90</strong></div>
+      <button class="buy-btn" id="buy"><span class="bag"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg></span>Buy Now</button>
+    </div>
+    <div class="dashes" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+  </div>
+
+  <a class="chef" href="#chef">
+    <span class="chef-ring"><svg viewBox="-50 -50 100 100" width="62" height="62"><use href="#chef"/></svg></span>
+    <span><small>Chef's Recommendation</small><b>See the menu types <em>→</em></b></span>
+  </a>
+
+  <div class="napkin" aria-hidden="true" data-depth="-10"></div>
+  <svg class="leaf-bl" viewBox="-60 -80 140 170" aria-hidden="true" data-depth="-14"><use href="#leaf"/></svg>
+
+  <!-- floating food -->
+  <div class="dish-wrap" data-depth="14">
+    <div class="dish">
+      <svg viewBox="0 0 400 400" overflow="visible" role="img" aria-label="Dumplings in a wooden bowl with chopsticks">
+        <circle cx="200" cy="226" r="182" fill="#000" opacity=".45" filter="url(#soft)"/>
+        <circle cx="200" cy="200" r="188" fill="url(#wood)"/>
+        <circle cx="200" cy="200" r="187" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2"/>
+        <g fill="none" stroke="#7a4a1c" stroke-opacity=".18" stroke-linecap="round">
+          <circle cx="200" cy="200" r="176" stroke-width="3"/><circle cx="200" cy="200" r="181" stroke-width="1.5"/>
+          <path d="M40 150 C70 60 160 24 250 30" stroke-width="2"/><path d="M360 250 C330 340 240 376 150 370" stroke-width="2"/><path d="M30 230 C40 300 90 350 150 372" stroke-width="1.5"/>
+        </g>
+        <circle cx="200" cy="200" r="158" fill="url(#inner)"/>
+        <circle cx="200" cy="200" r="158" fill="none" stroke="#7a4a1c" stroke-opacity=".35" stroke-width="3"/>
+        <g fill="none" stroke="#8a5a28" stroke-opacity=".16" stroke-width="2"><path d="M70 160 C90 100 150 70 210 72"/><path d="M80 260 C110 330 190 345 260 320"/><path d="M330 170 C320 120 280 88 240 78"/></g>
+        <use href="#dump" transform="translate(140 150) scale(1.0) rotate(-24)"/>
+        <use href="#dump" transform="translate(262 208) scale(1.05) rotate(14)"/>
+        <use href="#dump" transform="translate(190 284) scale(.95) rotate(38)"/>
+        <g transform="translate(-40 38) rotate(27)" filter="url(#drop)">
+          <rect x="0" y="0" width="540" height="13" rx="6.5" fill="url(#stick)"/>
+          <rect x="0" y="26" width="540" height="13" rx="6.5" fill="url(#stick)"/>
+          <rect x="0" y="2" width="540" height="3" rx="1.5" fill="#fff" opacity=".45"/>
+          <rect x="0" y="28" width="540" height="3" rx="1.5" fill="#fff" opacity=".45"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <svg class="leaf leaf-a" viewBox="-60 -80 160 170" aria-hidden="true" data-depth="26"><use href="#leaf"/></svg>
+  <svg class="leaf leaf-b" viewBox="-60 -80 160 170" aria-hidden="true" data-depth="22"><use href="#leaf"/></svg>
+  <div class="tomato" aria-hidden="true" data-depth="34"><i></i></div>
+  <svg class="garlic" viewBox="-30 -30 60 60" aria-hidden="true" data-depth="30"><path d="M-2,-24 C10,-10 24,4 18,16 C12,26 -18,26 -22,10 C-26,-4 -10,-12 -2,-24Z" fill="#f7e9cd"/><path d="M-2,-22 C4,-6 10,10 6,22" fill="none" stroke="#e2cfa6" stroke-width="2"/></svg>
+  <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="dot d4"></span>
+
+  <div class="scroll-ind" aria-hidden="true"><span>scroll</span><i></i></div>
+
+  <aside class="coupon" id="coupon" aria-label="Discount coupon">
+    <div class="coupon-head">
+      <span>Discount coupon</span>
+      <span class="ctrl"><button id="prev">‹ Prew</button><button id="next">Next ›</button></span>
+    </div>
+    <div class="coupon-body" id="couponBody">
+      <svg viewBox="-50 -50 100 100" width="46" height="46" class="c-img"><use id="cImg" href="#pizza"/></svg>
+      <div class="c-info"><b id="cName">Mexicoo Pizza</b><span><svg width="12" height="14" viewBox="0 0 24 28" fill="#f08a1f"><path d="M12 0c1 6 8 9 8 17a8 8 0 01-16 0c0-4 2-6 4-8 0 3 2 4 3 3-1-4-1-8 1-12z"/></svg> <i id="cCal">78 Calories</i></span></div>
+      <div class="c-price"><s>$7.90</s><strong id="cPrice">$7.90</strong></div>
+      <span class="c-time"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><i id="cTime">30 dk.</i></span>
+    </div>
   </aside>
+</section>
+</div>
 
-  <section class="finale" id="finale">
-    <h2>Croustillantes.<br>Dorées. Prêtes.</h2>
-  </section>
+<!-- ============ WHY FODE ============ -->
+<section class="section" id="why">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Why Fode?</p>
+    <h2 class="title" data-reveal>Cooked fresh, <b>delivered hot</b></h2>
+    <div class="grid3">
+      <article class="card feat" data-reveal style="--d:.05s">
+        <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3 4 6 6 6 10a6 6 0 01-12 0c0-4 3-6 6-10z"/></svg></div>
+        <h3>Special sauce</h3><p>Slow-simmered tomatoes, fresh basil and a pinch of a secret we never share. That is the flavor you only find at Fode.</p>
+      </article>
+      <article class="card feat" data-reveal style="--d:.15s">
+        <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <h3>30 minutes or less</h3><p>Your order goes from the pan to your door in half an hour. Hot when it leaves, hot when it arrives.</p>
+      </article>
+      <article class="card feat" data-reveal style="--d:.25s">
+        <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9-9a5 5 0 019-3 5 5 0 019 3c-2 4.5-9 9-9 9z"/></svg></div>
+        <h3>Made with care</h3><p>Local produce, handmade dough and zero shortcuts. Every plate is checked by a chef before it leaves the kitchen.</p>
+      </article>
+    </div>
+    <div class="stats" data-reveal>
+      <div><b data-count="120">0</b><span>Recipes</span></div>
+      <div><b data-count="48">0</b><span>Thousand happy guests</span></div>
+      <div><b data-count="30">0</b><span>Minutes delivery</span></div>
+      <div><b data-count="4.9" data-dec="1">0</b><span>Average rating</span></div>
+    </div>
+  </div>
+</section>
 
-  <div class="rail" aria-hidden="true"><i id="railFill"></i></div>
-  <button class="play" id="play" type="button">▶ Lecture auto</button>
-  <div class="loading" id="loading">Chargement de la scène 3D…</div>
+<!-- ============ MENU ============ -->
+<section class="section tint" id="menu">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Our menu</p>
+    <h2 class="title" data-reveal>Pick your <b>favorite plate</b></h2>
+    <div class="tabs" data-reveal id="tabs">
+      <button class="on" data-f="all">All</button><button data-f="pasta">Pasta</button><button data-f="pizza">Pizza</button><button data-f="asian">Asian</button><button data-f="burger">Burger</button><button data-f="sweet">Dessert</button>
+    </div>
+    <div class="menu-grid" id="menuGrid">
+      <article class="dish-card" data-c="pasta" data-reveal><div class="pic"><svg viewBox="-56 -56 112 112"><use href="#pasta"/></svg></div><h3>Spaghetti Pomodoro</h3><p>Special sauce, basil, parmesan.</p><div class="row"><b>$7.90</b><button class="add" aria-label="Add">+</button></div></article>
+      <article class="dish-card" data-c="pizza" data-reveal style="--d:.08s"><div class="pic"><svg viewBox="-56 -56 112 112"><use href="#pizza"/></svg></div><h3>Mexicoo Pizza</h3><p>Pepperoni, jalapeño, mozzarella.</p><div class="row"><b>$8.50</b><button class="add" aria-label="Add">+</button></div></article>
+      <article class="dish-card" data-c="asian" data-reveal style="--d:.16s"><div class="pic"><svg viewBox="-56 -56 112 112"><use href="#gyoza"/></svg></div><h3>Gyoza Bowl</h3><p>Pan-fried dumplings, sesame, soy.</p><div class="row"><b>$6.90</b><button class="add" aria-label="Add">+</button></div></article>
+      <article class="dish-card" data-c="burger" data-reveal><div class="pic"><svg viewBox="-56 -56 112 112"><use href="#burger"/></svg></div><h3>Smash Burger</h3><p>Double patty, cheddar, house sauce.</p><div class="row"><b>$9.20</b><button class="add" aria-label="Add">+</button></div></article>
+      <article class="dish-card" data-c="sweet" data-reveal style="--d:.08s"><div class="pic"><svg viewBox="-56 -56 112 112"><use href="#cake"/></svg></div><h3>Tiramisu</h3><p>Mascarpone, espresso, cocoa.</p><div class="row"><b>$4.90</b><button class="add" aria-label="Add">+</button></div></article>
+      <article class="dish-card" data-c="pasta" data-reveal style="--d:.16s"><div class="pic"><svg viewBox="-56 -56 112 112"><use href="#bowl2"/></svg></div><h3>Garden Bowl</h3><p>Fresh greens, tomato, light dressing.</p><div class="row"><b>$6.20</b><button class="add" aria-label="Add">+</button></div></article>
+    </div>
+  </div>
+</section>
 
-  <main class="spacer" aria-hidden="true"></main>
+<!-- ============ ABOUT (dark) ============ -->
+<section class="section dark-sec" id="about">
+  <div class="wrap two">
+    <div class="about-art" data-reveal="left">
+      <svg viewBox="0 0 400 400" overflow="visible" id="aboutDish"><circle cx="200" cy="200" r="188" fill="url(#wood)"/><circle cx="200" cy="200" r="158" fill="url(#inner)"/>
+        <use href="#dump" transform="translate(140 150) rotate(-24)"/><use href="#dump" transform="translate(262 208) scale(1.05) rotate(14)"/><use href="#dump" transform="translate(190 284) scale(.95) rotate(38)"/></svg>
+    </div>
+    <div>
+      <p class="eyebrow y" data-reveal>About Fode</p>
+      <h2 class="title w" data-reveal>A small kitchen with <b>big flavor</b></h2>
+      <p class="muted" data-reveal>Fode started with one pan and one sauce. Today our chefs cook pasta, pizza and dumplings the same way: fresh ingredients, patient cooking and a lot of love. No frozen shortcuts, ever.</p>
+      <ul class="ticks" data-reveal><li>Dough made by hand every morning</li><li>Sauces simmered for six hours</li><li>Recyclable, heat-keeping packaging</li></ul>
+      <a class="btn-yellow" href="#order" data-reveal>Meet the chefs</a>
+    </div>
+  </div>
+</section>
 
-  <script type="module" src="main.js"></script>
+<!-- ============ CHEF + HOW IT WORKS ============ -->
+<section class="section" id="chef">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>How it works</p>
+    <h2 class="title" data-reveal>From our kitchen to <b>your table</b></h2>
+    <div class="steps">
+      <div class="step" data-reveal><span class="n">1</span><h3>Choose</h3><p>Pick a plate from the menu or let the chef recommend one.</p></div>
+      <div class="step" data-reveal style="--d:.12s"><span class="n">2</span><h3>We cook</h3><p>Your order is cooked from scratch the moment you tap Buy Now.</p></div>
+      <div class="step" data-reveal style="--d:.24s"><span class="n">3</span><h3>Enjoy</h3><p>Hot food at your door in 30 minutes, or the next one is on us.</p></div>
+    </div>
+    <div class="chef-card" data-reveal>
+      <svg viewBox="-50 -50 100 100" width="96" height="96"><use href="#chef"/></svg>
+      <blockquote>“The best sauce is the one you taste once and keep thinking about.”<cite>— Marco, head chef</cite></blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REVIEWS ============ -->
+<section class="section tint" id="reviews">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Reviews</p>
+    <h2 class="title" data-reveal>People <b>love it</b></h2>
+    <div class="grid3">
+      <figure class="card rev" data-reveal><div class="stars">★★★★★</div><blockquote>The pasta sauce is unreal. Arrived hot and on time, will order again.</blockquote><figcaption>Amira K.</figcaption></figure>
+      <figure class="card rev" data-reveal style="--d:.12s"><div class="stars">★★★★★</div><blockquote>Best dumplings in town. The sesame crunch is just right.</blockquote><figcaption>Lucas M.</figcaption></figure>
+      <figure class="card rev" data-reveal style="--d:.24s"><div class="stars">★★★★☆</div><blockquote>Great pizza and a super simple app. The discount coupons are a nice touch.</blockquote><figcaption>Sofia R.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta" id="order">
+  <div class="wrap">
+    <h2 data-reveal>Hungry? Your <b>discount coupon</b> is waiting.</h2>
+    <form class="signup" data-reveal id="signup"><input type="email" required placeholder="Your email address" aria-label="Email"><button class="buy-btn" type="submit"><span class="bag">→</span>Get my coupon</button></form>
+    <p class="ok" id="ok" hidden>Thanks! Check your inbox for your coupon.</p>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap row">
+    <a class="logo" href="#top">Fode<i></i></a>
+    <nav><a href="#why">Why Fode?</a><a href="#menu">Menu</a><a href="#about">About</a><a href="#reviews">Reviews</a></nav>
+    <small>© 2026 Fode. All rights reserved.</small>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="app.js"></script>
 </body>
 </html>
