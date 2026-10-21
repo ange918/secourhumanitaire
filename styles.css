@@ -104,6 +104,18 @@ h1, h2, h3, p { margin: 0; }
 .dish { width: 100%; height: 100%; transform: translateX(120%) rotate(160deg) scale(.7); opacity: 0; transition: transform 1.9s cubic-bezier(.22,1,.36,1) .3s, opacity .7s .3s; }
 .ready .dish { transform: none; opacity: 1; }
 .dish img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 28px 26px rgba(0, 0, 0, .55)); animation: bob 7s ease-in-out 2s infinite; }
+/* soft light behind the (dark) bowl so it separates from the black shape */
+.dish-wrap::before {
+  content: ""; position: absolute; inset: -4% -4% -4% -4%; border-radius: 50%; z-index: -1;
+  background: radial-gradient(closest-side, rgba(255, 196, 96, .55) 0%, rgba(255, 170, 60, .28) 55%, transparent 100%);
+  opacity: 0; transform: scale(.6); transition: opacity 1.2s ease .9s, transform 1.6s var(--ease) .9s;
+}
+.dish-wrap::after {
+  content: ""; position: absolute; inset: 3%; border-radius: 50%; z-index: -1; border: 1.5px solid rgba(255, 220, 150, .35);
+  box-shadow: 0 0 60px rgba(255, 190, 80, .35), inset 0 0 40px rgba(255, 190, 80, .15);
+  opacity: 0; transition: opacity 1.2s ease 1s;
+}
+.ready .dish-wrap::before { opacity: 1; transform: none; } .ready .dish-wrap::after { opacity: 1; }
 @keyframes bob { 50% { transform: translateY(-10px) rotate(1.5deg); } }
 
 .leaf, .tomato, .garlic { position: absolute; z-index: 5; opacity: 0; transition: transform 1.2s var(--spring), opacity .6s; }
