@@ -25,6 +25,13 @@
   <a class="btn-yellow sm" href="#order">Order now</a>
 </header>
 
+<div class="m-menu" id="mMenu" aria-hidden="true">
+  <nav>
+    <a href="#why">Why Fode?</a><a href="#menu">Menu</a><a href="#about">About</a><a href="#reviews">Reviews</a>
+  </nav>
+  <div class="m-actions"><a class="btn-line" href="#order">Sign In</a><a class="btn-yellow" href="#order">Login</a></div>
+</div>
+
 <div class="page" id="top">
 <section class="hero" id="hero">
   <!-- black diagonal shape -->
@@ -56,7 +63,7 @@
       <a class="btn-line" href="#order">Sign In</a>
       <a class="btn-yellow" href="#order">Login</a>
     </nav>
-    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span></button>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mMenu"><span></span><span></span></button>
   </header>
 
   <svg class="squiggle" width="26" height="22" viewBox="0 0 26 22" fill="none" stroke="#9a9a9a" stroke-width="1.6" stroke-linecap="round"><path d="M2 8 q5.5 -7 11 0 t11 0"/><path d="M2 16 q5.5 -7 11 0 t11 0"/></svg>

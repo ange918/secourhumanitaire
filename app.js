@@ -145,4 +145,14 @@ function say(msg) { toast.textContent = msg; toast.classList.add('show'); clearT
 $('#buy').addEventListener('click', () => say('Italian Pasta added to your cart 🍝'));
 $$('.add').forEach((b) => b.addEventListener('click', () => say(`${b.closest('.dish-card').querySelector('h3').textContent} added to your cart`)));
 $('#signup').addEventListener('submit', (e) => { e.preventDefault(); $('#ok').hidden = false; e.target.reset(); });
-$('#burger').addEventListener('click', () => say('Menu: Why Fode? · About · Menu'));
+/* mobile menu */
+const burger = $('#burger'), mMenu = $('#mMenu');
+function setMenu(open) {
+  document.body.classList.toggle('menu-open', open);
+  burger.setAttribute('aria-expanded', String(open)); burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  mMenu.setAttribute('aria-hidden', String(!open));
+}
+burger.addEventListener('click', () => setMenu(!document.body.classList.contains('menu-open')));
+mMenu.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
+addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+matchMedia('(min-width: 961px)').addEventListener('change', (e) => { if (e.matches) setMenu(false); });
