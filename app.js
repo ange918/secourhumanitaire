@@ -50,7 +50,7 @@ if (!reduce && matchMedia('(hover: hover)').matches) {
 const coupons = [
   { img: '#pizza', name: 'Mexicoo Pizza', cal: '78 Calories', price: '$7.90', time: '30 dk.' },
   { img: '#pasta', name: 'Spaghetti Pomodoro', cal: '64 Calories', price: '$6.50', time: '25 dk.' },
-  { img: '#gyoza', name: 'Gyoza Bowl', cal: '52 Calories', price: '$5.90', time: '20 dk.' },
+  { img: '#gyoza', name: 'Wok Noodles', cal: '52 Calories', price: '$5.90', time: '20 dk.' },
 ];
 let ci = 0;
 const body = $('#couponBody');

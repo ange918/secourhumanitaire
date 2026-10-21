@@ -151,27 +151,7 @@
   <!-- floating food -->
   <div class="dish-wrap" data-depth="14">
     <div class="dish">
-      <svg viewBox="0 0 400 400" overflow="visible" role="img" aria-label="Dumplings in a wooden bowl with chopsticks">
-        <circle cx="200" cy="226" r="182" fill="#000" opacity=".45" filter="url(#soft)"/>
-        <circle cx="200" cy="200" r="188" fill="url(#wood)"/>
-        <circle cx="200" cy="200" r="187" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2"/>
-        <g fill="none" stroke="#7a4a1c" stroke-opacity=".18" stroke-linecap="round">
-          <circle cx="200" cy="200" r="176" stroke-width="3"/><circle cx="200" cy="200" r="181" stroke-width="1.5"/>
-          <path d="M40 150 C70 60 160 24 250 30" stroke-width="2"/><path d="M360 250 C330 340 240 376 150 370" stroke-width="2"/><path d="M30 230 C40 300 90 350 150 372" stroke-width="1.5"/>
-        </g>
-        <circle cx="200" cy="200" r="158" fill="url(#inner)"/>
-        <circle cx="200" cy="200" r="158" fill="none" stroke="#7a4a1c" stroke-opacity=".35" stroke-width="3"/>
-        <g fill="none" stroke="#8a5a28" stroke-opacity=".16" stroke-width="2"><path d="M70 160 C90 100 150 70 210 72"/><path d="M80 260 C110 330 190 345 260 320"/><path d="M330 170 C320 120 280 88 240 78"/></g>
-        <use href="#dump" transform="translate(140 150) scale(1.0) rotate(-24)"/>
-        <use href="#dump" transform="translate(262 208) scale(1.05) rotate(14)"/>
-        <use href="#dump" transform="translate(190 284) scale(.95) rotate(38)"/>
-        <g transform="translate(-40 38) rotate(27)" filter="url(#drop)">
-          <rect x="0" y="0" width="540" height="13" rx="6.5" fill="url(#stick)"/>
-          <rect x="0" y="26" width="540" height="13" rx="6.5" fill="url(#stick)"/>
-          <rect x="0" y="2" width="540" height="3" rx="1.5" fill="#fff" opacity=".45"/>
-          <rect x="0" y="28" width="540" height="3" rx="1.5" fill="#fff" opacity=".45"/>
-        </g>
-      </svg>
+      <img src="assets/noodles.png" width="900" height="900" alt="Wok noodles with chicken and herbs in a black bowl, with chopsticks" fetchpriority="high">
     </div>
   </div>
 
@@ -237,7 +217,7 @@
     <div class="menu-grid" id="menuGrid">
       <article class="dish-card" data-c="pasta" data-reveal><div class="pic"><svg viewBox="-56 -56 112 112"><use href="#pasta"/></svg></div><h3>Spaghetti Pomodoro</h3><p>Special sauce, basil, parmesan.</p><div class="row"><b>$7.90</b><button class="add" aria-label="Add">+</button></div></article>
       <article class="dish-card" data-c="pizza" data-reveal style="--d:.08s"><div class="pic"><svg viewBox="-56 -56 112 112"><use href="#pizza"/></svg></div><h3>Mexicoo Pizza</h3><p>Pepperoni, jalapeño, mozzarella.</p><div class="row"><b>$8.50</b><button class="add" aria-label="Add">+</button></div></article>
-      <article class="dish-card" data-c="asian" data-reveal style="--d:.16s"><div class="pic"><svg viewBox="-56 -56 112 112"><use href="#gyoza"/></svg></div><h3>Gyoza Bowl</h3><p>Pan-fried dumplings, sesame, soy.</p><div class="row"><b>$6.90</b><button class="add" aria-label="Add">+</button></div></article>
+      <article class="dish-card" data-c="asian" data-reveal style="--d:.16s"><div class="pic"><img src="assets/noodles.png" width="300" height="300" alt="" loading="lazy"></div><h3>Wok Noodles</h3><p>Sticky chicken, veggies, sesame.</p><div class="row"><b>$6.90</b><button class="add" aria-label="Add">+</button></div></article>
       <article class="dish-card" data-c="burger" data-reveal><div class="pic"><svg viewBox="-56 -56 112 112"><use href="#burger"/></svg></div><h3>Smash Burger</h3><p>Double patty, cheddar, house sauce.</p><div class="row"><b>$9.20</b><button class="add" aria-label="Add">+</button></div></article>
       <article class="dish-card" data-c="sweet" data-reveal style="--d:.08s"><div class="pic"><svg viewBox="-56 -56 112 112"><use href="#cake"/></svg></div><h3>Tiramisu</h3><p>Mascarpone, espresso, cocoa.</p><div class="row"><b>$4.90</b><button class="add" aria-label="Add">+</button></div></article>
       <article class="dish-card" data-c="pasta" data-reveal style="--d:.16s"><div class="pic"><svg viewBox="-56 -56 112 112"><use href="#bowl2"/></svg></div><h3>Garden Bowl</h3><p>Fresh greens, tomato, light dressing.</p><div class="row"><b>$6.20</b><button class="add" aria-label="Add">+</button></div></article>
@@ -249,8 +229,7 @@
 <section class="section dark-sec" id="about">
   <div class="wrap two">
     <div class="about-art" data-reveal="left">
-      <svg viewBox="0 0 400 400" overflow="visible" id="aboutDish"><circle cx="200" cy="200" r="188" fill="url(#wood)"/><circle cx="200" cy="200" r="158" fill="url(#inner)"/>
-        <use href="#dump" transform="translate(140 150) rotate(-24)"/><use href="#dump" transform="translate(262 208) scale(1.05) rotate(14)"/><use href="#dump" transform="translate(190 284) scale(.95) rotate(38)"/></svg>
+      <img id="aboutDish" src="assets/noodles.png" width="900" height="900" alt="Wok noodles in a black bowl" loading="lazy">
     </div>
     <div>
       <p class="eyebrow y" data-reveal>About Fode</p>
